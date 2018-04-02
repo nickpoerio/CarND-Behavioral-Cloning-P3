@@ -53,25 +53,25 @@ def Preprocessing():
     return model
 
 def NVIDIAmodel():
-	drop1_rate = 0.1
-	drop2_rate = 0.33
+	drop_rate1 = 0.1
+	drop_rate2 = 0.33
 	reg_rate = .01
     model = Preprocessing()
     model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop1_rate))
+	model.add(Dropout(drop_rate1))
     model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop1_rate))
+	model.add(Dropout(drop_rate1))
     model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop1_rate))
+	model.add(Dropout(drop_rate1))
     model.add(Convolution2D(64,3,3, activation='relu'))
-	model.add(Dropout(drop1_rate))
+	model.add(Dropout(drop_rate1))
     model.add(Convolution2D(64,3,3, activation='relu'))
-	model.add(Dropout(drop1_rate))
+	model.add(Dropout(drop_rate1))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
-	model.add(Dropout(drop2_rate))
+	model.add(Dropout(drop_rate2))
     model.add(Dense(50, activation='relu'))
-	model.add(Dropout(drop2_rate))
+	model.add(Dropout(drop_rate2))
     model.add(Dense(10, activation='relu'),W_regularizer=l2(reg_rate))
     model.add(Dense(1),W_regularizer=l2(reg_rate))
 return model
