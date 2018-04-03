@@ -19,7 +19,7 @@ def generator(samples, batch_size=32):
     num_samples = len(samples)
     while 1: # Loop forever so the generator never terminates
         shuffle(samples)
-        for offset in range(0, num_samples, batch_size):
+        for offset in range(1, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
 
             images = []
