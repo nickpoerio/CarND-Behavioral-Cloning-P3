@@ -29,13 +29,13 @@ def generator(samples, batch_size=32):
                 center_angle = float(batch_sample[3])
                 images.append(center_image)
                 angles.append(center_angle)
-				# Flipping
+                # Flipping
                 images.append(cv2.flip(center_image,1))
-				angles.append(-1.0*center_angle)
-				
-			# trim image to only see section with road
-			X_train = np.array(images)
-			y_train = np.array(angles)
+                angles.append(-1.0*center_angle)
+                
+            # trim image to only see section with road
+            X_train = np.array(images)
+            y_train = np.array(angles)
             yield sklearn.utils.shuffle(X_train, y_train)
 
 # compile and train the model using the generator function
@@ -53,25 +53,25 @@ def Preprocessing():
     return model
 
 def NVIDIAmodel():
-	drop_rate1 = 0.1
-	drop_rate2 = 0.33
-	reg_rate = .01
+    drop_rate1 = 0.1
+    drop_rate2 = 0.33
+    reg_rate = .01
     model = Preprocessing()
     model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop_rate1))
+    model.add(Dropout(drop_rate1))
     model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop_rate1))
+    model.add(Dropout(drop_rate1))
     model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu'))
-	model.add(Dropout(drop_rate1))
+    model.add(Dropout(drop_rate1))
     model.add(Convolution2D(64,3,3, activation='relu'))
-	model.add(Dropout(drop_rate1))
+    model.add(Dropout(drop_rate1))
     model.add(Convolution2D(64,3,3, activation='relu'))
-	model.add(Dropout(drop_rate1))
+    model.add(Dropout(drop_rate1))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
-	model.add(Dropout(drop_rate2))
+    model.add(Dropout(drop_rate2))
     model.add(Dense(50, activation='relu'))
-	model.add(Dropout(drop_rate2))
+    model.add(Dropout(drop_rate2))
     model.add(Dense(10, activation='relu'),W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate))
     model.add(Dense(1),W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate))
 return model
