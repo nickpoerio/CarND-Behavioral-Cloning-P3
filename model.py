@@ -79,9 +79,9 @@ return model
 model = NVIDIAmodel()
 
 model.compile(loss='mse', optimizer='adam')
-history_object = model.fit_generator(train_generator, samples_per_epoch= /
-            len(train_samples), validation_data=validation_generator, /
-            nb_val_samples=len(validation_samples), nb_epoch=3)
+history_object = model.fit_generator(train_generator, samples_per_epoch= \
+                 len(train_samples), validation_data=validation_generator, \
+                 nb_val_samples=len(validation_samples), nb_epoch=3)
 
 import matplotlib.pyplot as plt
 ### plot the training and validation loss for each epoch
