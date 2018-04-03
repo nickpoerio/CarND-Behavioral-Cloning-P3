@@ -32,7 +32,7 @@ def generator(samples, batch_size=32):
 				# Flipping
                 images.append(cv2.flip(center_image,1))
 				angles.append(-1.*center_angle)
-
+			
             # trim image to only see section with road
             X_train = np.array(images)
             y_train = np.array(angles)
