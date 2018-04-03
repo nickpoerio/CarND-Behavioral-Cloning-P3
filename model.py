@@ -71,8 +71,8 @@ def NVIDIAmodel():
     model.add(Dropout(drop_rate2))
     model.add(Dense(50, activation='relu'))
     model.add(Dropout(drop_rate2))
-    model.add(Dense(10, activation='relu'),W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate))
-    model.add(Dense(1),W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate))
+    model.add(Dense(10, activation='relu',W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate)))
+    model.add(Dense(1,W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate)))
     return model
 
 model = NVIDIAmodel()
