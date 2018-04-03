@@ -10,6 +10,8 @@ with open('../data/driving_log.csv') as csvfile:
         samples.append(line)
 
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
+
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 
@@ -35,7 +37,7 @@ def generator(samples, batch_size=32):
             # trim image to only see section with road
             X_train = np.array(images)
             y_train = np.array(angles)
-            yield sklearn.utils.shuffle(X_train, y_train)
+            yield shuffle(X_train, y_train)
 
 # compile and train the model using the generator function
 train_generator = generator(train_samples, batch_size=32)
