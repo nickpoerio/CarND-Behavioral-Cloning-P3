@@ -56,9 +56,7 @@ def Preprocessing():
     model.add(Cropping2D(cropping=((50,20),(0,0))))
     return model
 
-def NVIDIAmodel():
-    drop_rate1 = 0.1
-    drop_rate2 = 0.33
+def NVIDIAmodel(drop_rate1=0.,drop_rate2=0.):
     reg_rate = .01
     model = Preprocessing()
     model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
@@ -80,7 +78,7 @@ def NVIDIAmodel():
     model.add(Dense(1,W_regularizer=l2(reg_rate),b_regularizer=l2(reg_rate)))
     return model
 
-model = NVIDIAmodel()
+model = NVIDIAmodel(drop_rate1=0.1,drop_rate2 = 0.33)
 
 model.compile(loss='mse', optimizer='adam')
 history_object = model.fit_generator(train_generator, samples_per_epoch= \
