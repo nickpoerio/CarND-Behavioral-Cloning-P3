@@ -17,7 +17,7 @@ from sklearn.utils import shuffle
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 
-def generator(samples, batch_size=32):
+def generator(samples, batch_size=32, training=False):
     num_samples = len(samples)
     while 1: # Loop forever so the generator never terminates
         shuffle(samples)
@@ -33,9 +33,22 @@ def generator(samples, batch_size=32):
                 center_angle = float(batch_sample[3])
                 images.append(center_image)
                 angles.append(center_angle)
-                # Flipping
-                images.append(cv2.flip(center_image,1))
-                angles.append(-1.0*center_angle)
+                if training==True:
+                    name_left = '../data/IMG/'+batch_sample[1].split('/')[-1]
+                    name_right = '../data/IMG/'+batch_sample[2].split('/')[-1]
+                    tmp_l_image = cv2.imread(name_left)
+                    left_image = cv2.cvtColor(tmp_l_image, cv2.COLOR_BGR2RGB)
+                    left_angle = center_angle+0.2
+                    tmp_r_image = cv2.imread(name_right)
+                    right_image = cv2.cvtColor(tmp_r_image, cv2.COLOR_BGR2RGB)
+                    right_angle = center_angle-0.2
+                    images.append(left_image)
+                    angles.append(left_angle)
+                    images.append(right_image)
+                    angles.append(right_angle)
+                    # Flipping center image
+                    images.append(cv2.flip(center_image,1))
+                    angles.append(-1.0*center_angle)
                 
             # trim image to only see section with road
             X_train = np.array(images)
@@ -43,8 +56,8 @@ def generator(samples, batch_size=32):
             yield shuffle(X_train, y_train)
 
 # compile and train the model using the generator function
-train_generator = generator(train_samples, batch_size=32)
-validation_generator = generator(validation_samples, batch_size=32)
+train_generator = generator(train_samples, batch_size=32, training=True)
+validation_generator = generator(validation_samples, batch_size=32, training=False)
 
 from keras.models import Sequential, Model
 from keras.layers import Lambda, Cropping2D, Convolution2D, Dropout, Flatten, Dense
@@ -53,21 +66,21 @@ from keras.regularizers import l2
 def Preprocessing():
     model = Sequential()
     model.add(Lambda(lambda x: (x/255.)-.5, input_shape=(160,320,3)))
-    model.add(Cropping2D(cropping=((50,20),(0,0))))
+    model.add(Cropping2D(cropping=((60,20),(0,0))))
     return model
 
 def NVIDIAmodel(drop_rate1=0.,drop_rate2=0.):
     reg_rate = .01
     model = Preprocessing()
-    model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
+    model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu',dim_ordering='tf'))
     model.add(Dropout(drop_rate1))
-    model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu'))
+    model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu',dim_ordering='tf'))
     model.add(Dropout(drop_rate1))
-    model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu'))
+    model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu',dim_ordering='tf'))
     model.add(Dropout(drop_rate1))
-    model.add(Convolution2D(64,3,3, activation='relu'))
+    model.add(Convolution2D(64,3,3, activation='relu',dim_ordering='tf'))
     model.add(Dropout(drop_rate1))
-    model.add(Convolution2D(64,3,3, activation='relu'))
+    model.add(Convolution2D(64,3,3, activation='relu',dim_ordering='tf'))
     model.add(Dropout(drop_rate1))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
@@ -82,8 +95,8 @@ model = NVIDIAmodel(drop_rate1=0.1,drop_rate2 = 0.33)
 
 model.compile(loss='mse', optimizer='adam')
 history_object = model.fit_generator(train_generator, samples_per_epoch= \
-                 len(train_samples)*2, validation_data=validation_generator, \
-                 nb_val_samples=len(validation_samples)*2, nb_epoch=3)
+                 len(train_samples)*8, validation_data=validation_generator, \
+                 nb_val_samples=len(validation_samples), nb_epoch=3)
 
 #import matplotlib.pyplot as plt
 ### plot the training and validation loss for each epoch
