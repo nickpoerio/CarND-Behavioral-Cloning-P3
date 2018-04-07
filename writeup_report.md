@@ -12,9 +12,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/center_2016_12_01_13_30_48_404.png "center image"
-[image2]: ./examples/center_2016_12_01_13_30_48_404_flip.png "flipped image"
-[image3]: ./examples/center_2016_12_01_13_30_48_404_crop.png "cropped image"
+[image1]: ./examples/center_2016_12_01_13_30_48_404.jpg "center image"
+[image2]: ./examples/center_2016_12_01_13_30_48_404_flip.jpg "flipped image"
+[image3]: ./examples/center_2016_12_01_13_30_48_404_crop.jpg "cropped image"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
