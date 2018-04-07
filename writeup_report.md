@@ -112,7 +112,7 @@ My first choice, the NVIDIA architecture, was successful at first attempt. The l
 | RELU					|												|
 | Fully connected		| outputs 1 , L2 regularizer 0.001				|
 
-#### 3. Creation of the Training Set & Training Process
+#### 2. Creation of the Training Set & Training Process
 
 Even if I did record three laps in training mode, the training data provided were already sufficient to successfully and accurately complete the assignment
 
