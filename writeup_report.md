@@ -54,8 +54,9 @@ I used different dropout rates for convolutional (smaller) and fully connected l
 Being the last hidden layer quite small, I prefered to use a little L2 regularizer instead of dropout.
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting.
-In particular, I augmented the training set adding the side camera images, associated with a certain correction at the steering wheel, in order to provide information in case of critical situation. 
-I also flipped the center image and its associated steering angle, in order to eliminate bias in the training set. I decided not to do the same for side images, as they are just meant for more extreme corrections.
+In particular, I augmented the training set adding the side camera images, associated with a certain correction at the steering wheel, in order to better train the recovery from side to center. 
+I also flipped the center image and its associated steering angle, in order to eliminate bias in the training set.
+I decided not to do the same for side images, because I thought they were already enough for the side-to-center recovery purpose only.
 
 The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 In order to complete track1, training on track1 only was sufficient.
